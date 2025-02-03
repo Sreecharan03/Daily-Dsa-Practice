@@ -1,0 +1,107 @@
+Swap Kth nodes from ends
+Difficulty: Medium 
+Accuracy: 35.5%Submissions: 60K+Points: 4
+A singly linked list and an integer of k are given. You need to swap the kth node from the beginning and the kth node from the end of the linked list. Swap the nodes through the links. Do not change the content of the nodes.
+
+Note: The driver code will output "true" if you successfully swap the nodes.
+
+Examples:
+
+Input: LinkedList: 1->2->3->4, k = 1
+Output: true
+Explanation: Here k = 1, hence after swapping the 1st node from the beginning and end the new list will be 4->2->3->1. 
+Input: LinkedList: 1->2->3->4->5, k = 7
+Output: true
+Explanation: k > n. Swapping is invalid. Return the head node as it is.
+ 
+Expected Time Complexity: O(n)
+Expected Auxillary Space: O(1)
+
+Constraints:
+1 <= number of nodes <= 103
+1 <= node->data <= 106
+1 <= k <= 103
+class Solution {
+    public Node swapKthNode(Node head, int k) {
+        int n=0;
+        Node curr=head;
+        while(curr!=null)
+        {
+            n+=1;
+            curr=curr.next;
+        }
+        if(k<1 || k>n)
+        {
+            return head;
+        }
+        Node nodeA=head;
+        Node prevA=null;
+        for(int i=1;i<k;i++)
+            {
+                prevA=nodeA;
+                nodeA=nodeA.next;
+            }
+        int posB=n-k+1;
+        Node nodeB=head;
+        Node prevB=null;
+        for(int i= 1;i<posB;i++)
+        {
+            prevB=nodeB;
+            nodeB=nodeB.next;
+        }
+        if(nodeA==nodeB)
+        {
+            return head;
+        }
+        if(nodeA.next==nodeB)
+        {
+            if(prevA!=null)
+            {
+                prevA.next=nodeB;
+            }
+            else
+            {
+                head=nodeB;
+            }
+            nodeA.next=nodeB.next;
+            nodeB.next=nodeA;
+        }
+        else if(nodeB.next==nodeA)
+        {
+            if(prevB!=null)
+            {
+                prevB.next=nodeA;
+            }
+            else
+            {
+                head=nodeA;
+            }
+            nodeB.next=nodeA.next;
+            nodeA.next=nodeB;
+        }
+        else
+        {
+            if(prevA!=null)
+            {
+                prevA.next=nodeB;
+            }
+            else
+            {
+                head=nodeB;
+            }
+            if(prevB!=null)
+            {
+                prevB.next=nodeA;
+            }
+            else
+            {
+                head=nodeA;
+            }
+            Node temp=nodeA.next;
+            nodeA.next=nodeB.next;
+            nodeB.next=temp;
+        }
+        return head;
+        // code here
+    }
+}
